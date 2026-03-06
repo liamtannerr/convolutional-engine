@@ -34,3 +34,11 @@ __global__ void grayscaleKernel(unsigned char* d_in, unsigned char* d_out, int w
 
 
 }
+
+// --- CLASS IMPLEMENTATION ---
+ConvolutionEngine::ConvolutionEngine() : h_inputImage(nullptr), h_outputImage(nullptr), 
+    d_inputImage(nullptr), d_outputImage(nullptr), width(0), height(0), channels(0) {}
+
+ConvolutionEngine::~ConvolutionEngine() {
+    freeGPUMemory();
+}
