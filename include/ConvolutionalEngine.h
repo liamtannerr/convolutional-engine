@@ -54,7 +54,11 @@ class ConvolutionalEngine{
     unsigned char* d_outputImage;
     float* d_kernel;
 
+    // Image dimensions
     int width, height, channels;
+
+    // Helper to calculate Grid and Block dimensions
+    void calculateGrid(dim3& grid, dim3& block);
 
     // Internal helper to manage GPU memory allocation/deallocation 
     void allocateGPUMemory();
