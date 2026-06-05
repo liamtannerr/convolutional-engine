@@ -1,4 +1,4 @@
-#include "../include/ConvolutionEngine.h"
+#include "../include/ConvolutionalEngine.h"
 #include <iostream>
 #include <cuda_runtime.h>
 
@@ -16,10 +16,10 @@ Global Variables for Tiled Convolution
 #define MAX_KERNEL_RADIUS 3
 
 // --- CLASS IMPLEMENTATION ---
-ConvolutionEngine::ConvolutionEngine() : h_inputImage(nullptr), h_outputImage(nullptr), 
+ConvolutionalEngine::ConvolutionalEngine() : h_inputImage(nullptr), h_outputImage(nullptr), 
     d_inputImage(nullptr), d_outputImage(nullptr), width(0), height(0), channels(0) {}
 
-ConvolutionEngine::~ConvolutionEngine() {
+ConvolutionalEngine::~ConvolutionalEngine() {
     freeGPUMemory();
 }
 
@@ -29,7 +29,7 @@ void ConvolutionalEngine::calculateGrid(dim3& block, dim3& grid){
   //Initialize a thread block of size 256
   block = dim3(16, 16);
   // Calculate the number of thread blocks needed to cover the image
-  grid = dim3((block.x + width - 1) / block.x, (block.y + width - 1)/ block.y);
+  grid = dim3((block.x + width - 1) / block.x, (block.y + height - 1)/ block.y);
 }
 
 
@@ -53,7 +53,7 @@ __global__ void grayscaleKernel(unsigned char* d_in, unsigned char* d_out, int w
     float Luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
 
     // Recast Luminosity value at compile time
-    d_out[pixel_idx] = static_cast<unsigned char>Luminosity;
+    d_out[pixel_idx] = static_cast<unsigned char>(Luminosity);
 
   }
 }
